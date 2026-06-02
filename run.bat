@@ -47,33 +47,29 @@ if "%ARG2%"=="--flat" goto flatmode
 goto normalsetup
 
 :flatmode
-echo [FLAT MODE] Detaching submodule...
+echo [FLAT MODE] Converting submodule...
+
 set /p CONF=This will convert submodule to normal folder. Continue? (y/n): 
 if /I not "%CONF%"=="y" (
     echo Cancelled.
     goto end
 )
-if exist library\.git (
-    rmdir /S /Q library\.git
-)
+
+REM 1. make sure submodule content exists
+git submodule update --init --recursive
+
+REM 2. detach git linkage safely
+git rm --cached library >nul 2>&1
+
+REM 3. remove submodule metadata
 if exist .gitmodules del /F /Q .gitmodules
 if exist .git\modules\library rmdir /S /Q .git\modules\library
-git rm -r --cached library >nul 2>&1
-echo Submodule converted to normal folder.
+
+REM 4. remove inner git ONLY after ensuring files exist
+if exist library\.git rmdir /S /Q library\.git
+
+echo Submodule converted to normal folder (safe mode).
 goto setupdeps
-
-:normalsetup
-echo Normal setup (keeping submodules)
-
-:setupdeps
-cd backend
-call go mod tidy
-cd ..
-cd frontend
-call npm install
-cd ..
-echo Setup complete.
-goto end
 
 :end
 endlocal
