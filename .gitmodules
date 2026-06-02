@@ -1,0 +1,6 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/thelastcat15/cms_template.git
+[submodule "backend"]
+	path = backend
+	url = https://github.com/thelastcat15/api_template.git
