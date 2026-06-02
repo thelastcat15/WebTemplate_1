@@ -44,7 +44,7 @@ goto end
 :setup
 echo Setting up project...
 if "%ARG2%"=="--flat" goto flatmode
-goto normalsetup
+goto setupdeps
 
 :flatmode
 echo [FLAT MODE] Converting submodule...
@@ -70,6 +70,16 @@ if exist library\.git rmdir /S /Q library\.git
 
 echo Submodule converted to normal folder (safe mode).
 goto setupdeps
+
+:setupdeps
+cd backend
+call go mod tidy
+cd ..
+cd frontend
+call npm install
+cd ..
+echo Setup complete.
+goto end
 
 :end
 endlocal
