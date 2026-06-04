@@ -78,6 +78,8 @@ if exist .git\modules\library rmdir /S /Q .git\modules\library
 REM 4. remove inner git ONLY after ensuring files exist
 if exist library\.git rmdir /S /Q library\.git
 
+if exist .git rmdir /S /Q .git
+
 echo Submodule converted to normal folder (safe mode).
 goto setupdeps
 
