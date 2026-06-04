@@ -6,7 +6,7 @@ cd /d "%~dp0"
 set CMD=%1
 set ARG2=%2
 
-if "%CMD%"=="run" goto run
+if "%CMD%"=="run" goto run_with_clean
 if "%CMD%"=="clean" goto clean
 if "%CMD%"=="setup" goto setup
 
@@ -15,6 +15,10 @@ echo Usage: run.bat clean
 echo Usage: run.bat setup
 echo Usage: run.bat setup --flat
 goto end
+
+:run_with_clean
+call :clean
+goto run
 
 :run
 echo Starting services...
