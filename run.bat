@@ -9,11 +9,12 @@ set ARG2=%2
 if "%CMD%"=="run" goto run_with_clean
 if "%CMD%"=="clean" goto clean
 if "%CMD%"=="setup" goto setup
+if "%CMD%"=="new" goto new
 
 echo Usage: run.bat run
 echo Usage: run.bat clean
 echo Usage: run.bat setup
-echo Usage: run.bat setup --flat
+echo Usage: run.bat new
 goto end
 
 :run_with_clean
@@ -48,6 +49,11 @@ goto end
 :setup
 echo Setting up project...
 if "%ARG2%"=="--flat" goto flatmode
+goto setupdeps
+
+:new
+echo Create new project...
+goto flatmode
 goto setupdeps
 
 :flatmode
